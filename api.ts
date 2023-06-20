@@ -21,3 +21,18 @@ export const addTodo = async (todo: ITask): Promise<ITask> => {
   const newTodo = await res.json()
   return newTodo
 }
+
+
+export const editTodo = async (todo: ITask): Promise<ITask> => {
+  // url 后面跟id json-server可自动对应到要修改的内容
+  const res = await fetch(`${baseUrl}/tasks/${todo.id}`, {
+    // 使用 put 
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(todo)
+  })
+  const updatedTodo = await res.json()
+  return updatedTodo
+}

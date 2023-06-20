@@ -12,14 +12,13 @@ const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
     {/* head */}
     <thead>
       <tr>
-        <th>Index</th>
-        <th>Tasks</th>
-        <th>Actions</th>
+        {/* <th>Index</th> */}
+        <th>任务</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
       {tasks.map(task => <Task key={task.id} task={task}/>)}
-      
     </tbody>
   </table>
 </div>

@@ -10,37 +10,29 @@ import { addTodo } from "@/api"
 const AddTask = () => {
   const router = useRouter()
   const [newTaskValue, setNewTaskValue] = useState('')
-  const handleAdd = () => {
-    // setModalOpen(true)
-    window.modal_add_task.showModal()
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   const handleSubmitNewTodo = async () => {
     // e.preventDefault()
-    console.log(newTaskValue)
     await addTodo({
       id: uuidv4(),
       text: newTaskValue
     })
     // 关闭弹窗
-    // window.modal_add_task.closeModal()
+    // 使用 dialog 标签可用:window.modal_add_task.closeModal()
     setNewTaskValue("")
+    setModalOpen(false)
     router.refresh()
   }
 
   return (
     <div>
-      <button className="btn btn-primary w-full" onClick={handleAdd}>
+      <button className="btn btn-primary w-full" onClick={() => setModalOpen(true)}>
         Add new task
         <AiOutlinePlus className="ml-1" size={18} />
       </button>
 
-      {/* <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        modal for add todo
-      </Modal> */}
-      <Modal>
-        {/* <form onSubmit={handleSubmitNewTodo}> */}
-          <h3 className="font-bold text-lg">添加新 todo</h3>
+      <Modal title="添加新 todo" modalOpen={modalOpen} setModalOpen={setModalOpen}>
           <div className="modal-action">
             <input
             value={newTaskValue}
@@ -53,7 +45,6 @@ const AddTask = () => {
               确定
             </button>
           </div>
-        {/* </form> */}
       </Modal>
     </div>
   )
