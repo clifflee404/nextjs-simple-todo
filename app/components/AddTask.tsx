@@ -7,27 +7,31 @@ import { v4 as uuidv4 } from 'uuid'
 import { addTodo } from "@/api"
 import { addLocalTodo } from "../utils/localApi"
 import { useRouter } from 'next/navigation'
+import { useTasksDispatch } from "../store/TasksContext"
 
 const AddTask = () => {
-  const router = useRouter()
   const [newTaskValue, setNewTaskValue] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
+  const dispatch = useTasksDispatch()
 
   const handleSubmitNewTodo = async () => {
-    // e.preventDefault()
+
     const newTodo =  {
       id: uuidv4(),
       text: newTaskValue
     }
     // await addTodo(newTodo)
     addLocalTodo(newTodo)
+    dispatch({
+      type: 'add',
+      ...newTodo
+    })
     // 关闭弹窗
     // 使用 dialog 标签可用:window.modal_add_task.closeModal()
     setNewTaskValue("")
     setModalOpen(false)
-    // router.refresh()
     // todo 需要改进, 体验不佳
-    window.location.reload()
+    // window.location.reload()
   }
 
   return (

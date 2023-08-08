@@ -7,6 +7,7 @@ import Modal from "./Modal"
 import { useRouter } from "next/navigation"
 import { deleteTodo, editTodo } from "@/api"
 import { deleteLocalTodo, editLocalTodo } from "../utils/localApi"
+import { useTasksDispatch } from "../store/TasksContext"
 interface TaskProps {
   task: ITask
 }
@@ -16,6 +17,8 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   const [openModalDelete, setOpenModalDelete] = useState(false)
   const [taskToEdit, setTaskToEdit] = useState<string>(task.text)
 
+  const dispatch =useTasksDispatch()
+
   const handleSubmitEditTask = async () => {
     const updateTodo = {
       id: task.id,
@@ -24,13 +27,16 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     // await editTodo(updateTodo)
 
     await editLocalTodo(updateTodo)
+
+    dispatch({
+      type: 'edit',
+      task: updateTodo
+    })
     // 关闭弹窗
     // window.modal_add_task.closeModal()
     // setTaskToEdit("")
     setOpenModalEdit(false)
     // router.refresh()
-    // todo 需要改进, 体验不佳
-    window.location.reload()
   }
 
   const handleDelete = async () => {
@@ -38,8 +44,10 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     await deleteLocalTodo(task.id)
     setOpenModalDelete(false)
     // router.refresh()
-    // todo 需要改进, 体验不佳
-    window.location.reload()
+    dispatch({
+      type: 'delete',
+      id: task.id
+    })
   }
 
   return (
