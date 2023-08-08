@@ -8,7 +8,6 @@ interface TodoListProps{
 }
 const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
   console.log('---todo list:', tasks);
-  
   if (!tasks || tasks.length === 0) {
     return (
       <div className="flex items-center justify-center py-4 w-full">
