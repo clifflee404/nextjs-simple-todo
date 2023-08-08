@@ -3,18 +3,12 @@ import { ITask } from "@/types/tasks"
 import React, { useEffect, useState } from "react"
 import Task from "./Task"
 import { getLocalTodos } from "../utils/localApi"
-
-const TodoList = () => {
-  const [tasks, setTasks] = useState<ITask[]>([])
-
-
-  useEffect(() => {
-    const tasks = getLocalTodos()
-    console.log("tasks:", tasks)
-    setTasks(tasks)
-  }, [])
-
-
+interface TodoListProps{
+  tasks: ITask[]
+}
+const TodoList: React.FC<TodoListProps> = ({ tasks }) => {
+  console.log('---todo list:', tasks);
+  
   if (!tasks || tasks.length === 0) {
     return (
       <div className="flex items-center justify-center py-4 w-full">
