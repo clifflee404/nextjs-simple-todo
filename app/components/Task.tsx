@@ -6,6 +6,7 @@ import { FiEdit, FiTrash2 } from "react-icons/fi"
 import Modal from "./Modal"
 import { useRouter } from "next/navigation"
 import { deleteTodo, editTodo } from "@/api"
+import { deleteLocalTodo, editLocalTodo } from "../utils/localApi"
 interface TaskProps {
   task: ITask
 }
@@ -16,21 +17,29 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   const [taskToEdit, setTaskToEdit] = useState<string>(task.text)
 
   const handleSubmitEditTask = async () => {
-    await editTodo({
+    const updateTodo = {
       id: task.id,
       text: taskToEdit,
-    })
+    }
+    // await editTodo(updateTodo)
+
+    await editLocalTodo(updateTodo)
     // 关闭弹窗
     // window.modal_add_task.closeModal()
     // setTaskToEdit("")
     setOpenModalEdit(false)
-    router.refresh()
+    // router.refresh()
+    // todo 需要改进, 体验不佳
+    window.location.reload()
   }
 
   const handleDelete = async () => {
-    await deleteTodo(task.id)
+    // await deleteTodo(task.id)
+    await deleteLocalTodo(task.id)
     setOpenModalDelete(false)
-    router.refresh()
+    // router.refresh()
+    // todo 需要改进, 体验不佳
+    window.location.reload()
   }
 
   return (

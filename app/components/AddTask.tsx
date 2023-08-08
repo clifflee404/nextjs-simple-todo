@@ -3,9 +3,10 @@
 import { FormEventHandler, useState } from "react"
 import { AiOutlinePlus } from "react-icons/ai"
 import Modal from "./Modal"
-import { useRouter } from "next/navigation"
 import { v4 as uuidv4 } from 'uuid'
 import { addTodo } from "@/api"
+import { addLocalTodo } from "../utils/localApi"
+import { useRouter } from 'next/navigation'
 
 const AddTask = () => {
   const router = useRouter()
@@ -14,15 +15,19 @@ const AddTask = () => {
 
   const handleSubmitNewTodo = async () => {
     // e.preventDefault()
-    await addTodo({
+    const newTodo =  {
       id: uuidv4(),
       text: newTaskValue
-    })
+    }
+    // await addTodo(newTodo)
+    addLocalTodo(newTodo)
     // 关闭弹窗
     // 使用 dialog 标签可用:window.modal_add_task.closeModal()
     setNewTaskValue("")
     setModalOpen(false)
-    router.refresh()
+    // router.refresh()
+    // todo 需要改进, 体验不佳
+    window.location.reload()
   }
 
   return (
